@@ -17,9 +17,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import AuthGuard from '@/components/auth/AuthGuard';
 
 function Dashboard() {
-  const [suggestion, setSuggestion] = React.useState<{confidence: string, summary: string} | null>(null);
+  const [suggestion, setSuggestion] = React.useState<{ confidence: string, summary: string } | null>(null);
   const [loading, setLoading] = React.useState(true);
-  const [sentiment, setSentiment] = React.useState<{value: string, description: string} | null>(null);
+  const [sentiment, setSentiment] = React.useState<{ value: string, description: string } | null>(null);
 
 
   React.useEffect(() => {
@@ -44,11 +44,11 @@ function Dashboard() {
         let newSentiment = "Neutral";
         const summary = result.summary.toLowerCase();
         if (summary.includes('bullish') || summary.includes('positive') || summary.includes('upward') || summary.includes('buy')) {
-            newSentiment = "Bullish";
+          newSentiment = "Bullish";
         } else if (summary.includes('bearish') || summary.includes('negative') || summary.includes('downward') || summary.includes('sell')) {
-            newSentiment = "Bearish";
+          newSentiment = "Bearish";
         }
-        
+
         let newDescription = 'Market is uncertain.';
         if (newSentiment === 'Bullish') newDescription = 'Market is optimistic.';
         if (newSentiment === 'Bearish') newDescription = 'Market is pessimistic.';
@@ -76,12 +76,7 @@ function Dashboard() {
         <Header />
         <main className="p-4 sm:p-6 lg:p-8 space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-            <StatCard
-              title="Total Value"
-              value="$12,842.34"
-              change="+1.2%"
-              icon={<Coins className="text-primary" />}
-            />
+
             {loading ? (
               <CardSkeleton />
             ) : (
@@ -95,7 +90,7 @@ function Dashboard() {
             {loading || !sentiment ? (
               <CardSkeleton />
             ) : (
-               <StatCard
+              <StatCard
                 title="Market Sentiment"
                 value={sentiment.value}
                 change={sentiment.description}
@@ -135,18 +130,18 @@ function Dashboard() {
 
 
 function CardSkeleton() {
-    return (
-        <div className="p-6 bg-card rounded-lg border">
-            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Skeleton className="h-4 w-2/4" />
-                <Skeleton className="h-6 w-6 rounded-full" />
-            </div>
-            <div>
-                <Skeleton className="h-7 w-1/3 mb-2" />
-                <Skeleton className="h-3 w-1/2" />
-            </div>
-        </div>
-    )
+  return (
+    <div className="p-6 bg-card rounded-lg border">
+      <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Skeleton className="h-4 w-2/4" />
+        <Skeleton className="h-6 w-6 rounded-full" />
+      </div>
+      <div>
+        <Skeleton className="h-7 w-1/3 mb-2" />
+        <Skeleton className="h-3 w-1/2" />
+      </div>
+    </div>
+  )
 }
 
 export default function Home() {

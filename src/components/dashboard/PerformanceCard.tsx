@@ -28,36 +28,10 @@ export function PerformanceCard() {
     <Card>
       <CardHeader>
         <CardTitle>AI Performance</CardTitle>
-        <CardDescription>Prediction accuracy over the last 6 months.</CardDescription>
+        <CardDescription>Prediction accuracy over time.</CardDescription>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[200px] w-full">
-          <BarChart data={performanceMetrics} margin={{ top: 5, right: 10, left: -20, bottom: -10 }}>
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={4}
-              fontSize={12}
-            />
-             <YAxis
-                tickLine={false}
-                axisLine={false}
-                tickMargin={4}
-                fontSize={12}
-                tickFormatter={(value) => `${value}%`}
-             />
-            <Tooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="dot" />}
-            />
-            <Bar
-              dataKey="accuracy"
-              fill="var(--color-accuracy)"
-              radius={4}
-            />
-          </BarChart>
-        </ChartContainer>
+      <CardContent className="flex h-[200px] items-center justify-center text-muted-foreground">
+        Performance data will appear here once enough trading history is available.
       </CardContent>
     </Card>
   );
