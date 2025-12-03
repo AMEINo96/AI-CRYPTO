@@ -12,6 +12,7 @@ import { StatCard } from '@/components/dashboard/StatCard';
 import { Coins, Activity, Gauge, Bell } from 'lucide-react';
 import Link from 'next/link';
 import { generateTradeSuggestion } from '@/ai/flows/generate-trade-suggestion';
+import { savePrediction, checkPredictionAccuracy, getPastPerformance } from '@/firebase/predictions';
 import { cryptocurrencies, newsArticles } from '@/lib/data';
 import { Skeleton } from '@/components/ui/skeleton';
 import AuthGuard from '@/components/auth/AuthGuard';
@@ -27,6 +28,15 @@ function Dashboard() {
       setLoading(true);
       const currentCrypto = cryptocurrencies[0]; // Default to Bitcoin
       try {
+        // 1. Check accuracy of past predictions
+        await checkPredictionAccuracy();
+
+        // 2. Get past performance to feed into AI
+        const pastPredictions = await getPastPerformance(currentCrypto.ticker, 5);
+        const pastPerformanceSummary = pastPredictions.map(p =>
+          `- ${p.action} at ${p.entryPrice}: ${p.status} (Confidence: ${p.confidence})`
+        ).join('\n');
+
         const newsSummary = newsArticles
           .filter((n) =>
             n.title.toLowerCase().includes(currentCrypto.name.toLowerCase())
@@ -34,11 +44,22 @@ function Dashboard() {
           .map((n) => n.title)
           .join('. ');
 
+        // 3. Generate new suggestion
         const result = await generateTradeSuggestion({
           ticker: currentCrypto.ticker,
           news: newsSummary || 'No specific news available.',
+          pastPerformance: pastPerformanceSummary || 'No past data available.',
         });
         setSuggestion(result);
+
+        // 4. Save the new prediction
+        await savePrediction({
+          ticker: currentCrypto.ticker,
+          action: result.action as 'Buy' | 'Sell' | 'Hold',
+          entryPrice: result.entryPrice,
+          rationale: result.summary,
+          confidence: result.confidence,
+        });
 
         // Calculate sentiment only after data is fetched
         let newSentiment = "Neutral";

@@ -9,13 +9,15 @@
  * - GenerateTradeSuggestionOutput - The return type for the generateTradeSuggestion function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
 import { getHistoricalPriceDataTool } from '@/ai/tools/get-historical-price-data';
+import { getTechnicalIndicatorsTool } from '@/ai/tools/get-technical-indicators';
 
 const GenerateTradeSuggestionInputSchema = z.object({
   ticker: z.string().describe('The ticker symbol of the cryptocurrency (e.g., BTC, ETH).'),
   news: z.string().describe('The latest news related to the cryptocurrency.'),
+  pastPerformance: z.string().optional().describe('A summary of past prediction accuracy to learn from.'),
 });
 export type GenerateTradeSuggestionInput = z.infer<typeof GenerateTradeSuggestionInputSchema>;
 
@@ -40,19 +42,23 @@ export async function generateTradeSuggestion(
 
 const prompt = ai.definePrompt({
   name: 'generateTradeSuggestionPrompt',
-  input: {schema: GenerateTradeSuggestionInputSchema},
-  output: {schema: GenerateTradeSuggestionOutputSchema},
-  tools: [getHistoricalPriceDataTool],
-  prompt: `You are an expert crypto trading analyst providing clear, actionable advice for a beginner.
+  input: { schema: GenerateTradeSuggestionInputSchema },
+  output: { schema: GenerateTradeSuggestionOutputSchema },
+  tools: [getHistoricalPriceDataTool, getTechnicalIndicatorsTool],
+  prompt: `You are an expert crypto trading analyst providing clear, actionable advice.
 Based on the data for {{{ticker}}}, provide a complete trading suggestion.
 
-Your advice MUST be direct and easy to understand for someone new to trading.
-Use the getHistoricalPriceDataTool to analyze the past 90 days of price data to identify trends, volatility, and support/resistance levels.
-Combine this historical analysis with the provided news articles to form a comprehensive recommendation.
+**Context:**
+- **Past Performance:** {{{pastPerformance}}}
+  (Use this to learn from your recent correct/incorrect predictions. If you were wrong recently, be more cautious.)
 
-News: {{{news}}}
+**Instructions:**
+1.  **Technical Analysis:** Use the \`getTechnicalIndicators\` tool to get RSI, MACD, and SMA. Cite these specific numbers in your rationale.
+2.  **Trend Analysis:** Use \`getHistoricalPriceData\` to check the 90-day trend.
+3.  **News Analysis:** Incorporate the provided news: {{{news}}}
 
-Provide a full trading plan including the action, strategy, leverage, timeframe, confidence, a summary of your reasoning, and specific price targets for entry, stop-loss, and take-profit.
+**Goal:**
+Provide a high-confidence trade setup with specific Entry, Stop-Loss, and Take-Profit levels.
 `,
 });
 
@@ -63,7 +69,7 @@ const generateTradeSuggestionFlow = ai.defineFlow(
     outputSchema: GenerateTradeSuggestionOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const { output } = await prompt(input);
     return output!;
   }
 );

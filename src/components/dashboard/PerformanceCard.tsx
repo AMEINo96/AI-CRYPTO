@@ -23,15 +23,37 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+import * as React from "react";
+import { getAccuracyStats } from "@/firebase/predictions";
+
 export function PerformanceCard() {
+  const [stats, setStats] = React.useState({ accuracy: 0, total: 0 });
+
+  React.useEffect(() => {
+    const fetchStats = async () => {
+      const data = await getAccuracyStats();
+      setStats(data);
+    };
+    fetchStats();
+  }, []);
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>AI Performance</CardTitle>
-        <CardDescription>Prediction accuracy over time.</CardDescription>
+        <CardDescription>Based on {stats.total} verified predictions.</CardDescription>
       </CardHeader>
-      <CardContent className="flex h-[200px] items-center justify-center text-muted-foreground">
-        Performance data will appear here once enough trading history is available.
+      <CardContent className="flex flex-col items-center justify-center h-[200px]">
+        {stats.total > 0 ? (
+          <>
+            <div className="text-5xl font-bold text-primary">{stats.accuracy}%</div>
+            <p className="text-muted-foreground mt-2">Win Rate</p>
+          </>
+        ) : (
+          <p className="text-muted-foreground text-center">
+            Performance data will appear here once enough trading history is available.
+          </p>
+        )}
       </CardContent>
     </Card>
   );

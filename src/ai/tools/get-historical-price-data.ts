@@ -4,15 +4,15 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { chartData, type ChartData } from '@/lib/data';
+import { getHistoricalData } from '@/lib/api/coingecko';
 
 const GetHistoricalPriceDataInputSchema = z.object({
   ticker: z.string().describe('The ticker symbol of the cryptocurrency (e.g., BTC, ETH).'),
 });
 
 const GetHistoricalPriceDataOutputSchema = z.array(z.object({
-    date: z.string(),
-    price: z.number(),
+  date: z.string(),
+  price: z.number(),
 })).describe('An array of historical price data points for the last 90 days.');
 
 
@@ -25,13 +25,27 @@ export const getHistoricalPriceDataTool = ai.defineTool(
   },
   async (input) => {
     const cryptoId = input.ticker.toLowerCase();
-    
-    // In a real application, you would fetch this from an API.
-    // Here, we simulate it using our mock data.
-    const data = chartData[cryptoId] || [];
-    
-    // The prompt asks for 90 days, but our mock data is 30 days.
-    // We will return what we have.
-    return data.map(d => ({ date: d.date, price: d.price }));
+
+    // Map ticker to CoinGecko ID (simple mapping for now, can be expanded)
+    const idMap: Record<string, string> = {
+      'btc': 'bitcoin',
+      'eth': 'ethereum',
+      'doge': 'dogecoin',
+      'sol': 'solana',
+    };
+    const coinId = idMap[cryptoId] || cryptoId;
+
+    try {
+      // Fetch 90 days of data
+      const historicalData = await getHistoricalData(coinId, 90);
+
+      return historicalData.map(d => ({
+        date: new Date(d.timestamp).toISOString().split('T')[0],
+        price: d.close
+      }));
+    } catch (error) {
+      console.error("Failed to fetch historical data:", error);
+      return [];
+    }
   }
 );
