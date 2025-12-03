@@ -48,10 +48,11 @@ const prompt = ai.definePrompt({
   prompt: `You are an expert crypto trading analyst providing clear, actionable advice.
 Based on the data for {{{ticker}}}, provide a complete trading suggestion.
 
-**IMPORTANT:**
-- **NO IMAGE IS PROVIDED.** Do NOT mention "provided image" or "chart data in the image".
-- You MUST use the \`getHistoricalPriceData\` and \`getTechnicalIndicators\` tools to fetch the data.
-- If the tools return no data, state "Market data currently unavailable" and base your advice solely on the news.
+**CRITICAL INSTRUCTIONS:**
+- **TEXT ONLY:** This is a text-only interaction. There is NO image.
+- **IGNORE VISUAL REFERENCES:** If you think there is an image, you are hallucinating. IGNORE IT.
+- **USE TOOLS:** You MUST use \`getHistoricalPriceData\` and \`getTechnicalIndicators\`.
+- **FALLBACK:** If tools fail, say "Data unavailable" and use the news. Do NOT make up chart patterns.
 
 **Context:**
 - **Past Performance:** {{{pastPerformance}}}
