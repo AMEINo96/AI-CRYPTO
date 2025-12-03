@@ -61,9 +61,9 @@ const generateChartData = (startPrice: number, days: number): ChartData[] => {
   // Add a future prediction
   const lastPrice = data[data.length - 1].price;
   const predictionPrice = lastPrice * (1 + (Math.random() - 0.4) * 0.1);
-  data[data.length-2].prediction = data[data.length-2].price;
-  data[data.length-1].prediction = parseFloat(predictionPrice.toFixed(2));
-  
+  data[data.length - 2].prediction = data[data.length - 2].price;
+  data[data.length - 1].prediction = parseFloat(predictionPrice.toFixed(2));
+
   return data;
 };
 
@@ -74,23 +74,23 @@ export const chartData: Record<string, ChartData[]> = {
 };
 
 export const newsArticles: NewsArticle[] = [
-  { id: '1', source: 'CoinDesk', title: 'Bitcoin Breaks $68,000 as Market Optimism Surges', time: '2h ago', url: '#' },
-  { id: '2', source: 'Bloomberg', title: 'Ethereum "Dencun" Upgrade Finalized, Gas Fees Expected to Drop', time: '5h ago', url: '#' },
-  { id: '3', source: 'Reuters', title: 'Regulatory Landscape for Crypto Shifts in European Union', time: '8h ago', url: '#' },
-  { id: '4', source: 'The Block', title: 'Dogecoin Rallies as Elon Musk Hints at X Integration', time: '1d ago', url: '#' },
+  { id: '1', source: 'CoinDesk', title: 'Bitcoin Breaks $68,000 as Market Optimism Surges', time: '2h ago', url: 'https://www.coindesk.com/market/bitcoin' },
+  { id: '2', source: 'Bloomberg', title: 'Ethereum "Dencun" Upgrade Finalized, Gas Fees Expected to Drop', time: '5h ago', url: 'https://www.bloomberg.com/crypto' },
+  { id: '3', source: 'Reuters', title: 'Regulatory Landscape for Crypto Shifts in European Union', time: '8h ago', url: 'https://www.reuters.com/technology/cryptocurrency/' },
+  { id: '4', source: 'The Block', title: 'Dogecoin Rallies as Elon Musk Hints at X Integration', time: '1d ago', url: 'https://www.theblock.co/' },
 ];
 
 export const performanceMetrics: PerformanceMetric[] = [
-    { month: 'Jan', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
-    { month: 'Feb', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
-    { month: 'Mar', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
-    { month: 'Apr', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
-    { month: 'May', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
-    { month: 'Jun', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
+  { month: 'Jan', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
+  { month: 'Feb', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
+  { month: 'Mar', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
+  { month: 'Apr', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
+  { month: 'May', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
+  { month: 'Jun', accuracy: Math.floor(Math.random() * (90 - 70 + 1) + 70) },
 ];
 
 export const alerts: Alert[] = [
-    { id: '1', crypto: 'BTC', condition: 'Price > $70,000', active: true },
-    { id: '2', crypto: 'ETH', condition: 'Price < $3,200', active: true },
-    { id: '3', crypto: 'DOGE', condition: 'Price > $0.20', active: false },
+  { id: '1', crypto: 'BTC', condition: 'Price > $70,000', active: true },
+  { id: '2', crypto: 'ETH', condition: 'Price < $3,200', active: true },
+  { id: '3', crypto: 'DOGE', condition: 'Price > $0.20', active: false },
 ]

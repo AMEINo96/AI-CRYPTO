@@ -55,11 +55,15 @@ function Dashboard() {
 
         setSentiment({ value: newSentiment, description: newDescription });
 
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to get initial suggestion", error);
         // Set a default/error state if the AI call fails
-        setSuggestion({ confidence: 'N/A', summary: 'Could not load market sentiment.' });
-        setSentiment({ value: 'Error', description: 'Could not load data.' });
+        const errorMessage = error.message?.includes('API key')
+          ? 'Missing API Key'
+          : 'Analysis Failed';
+
+        setSuggestion({ confidence: 'N/A', summary: errorMessage });
+        setSentiment({ value: 'Error', description: 'Check API Key' });
       }
       setLoading(false);
     };
