@@ -1,0 +1,10 @@
+{
+  "placeholderImages": [
+    {
+      "id": "chart-analysis-1",
+      "description": "A placeholder image of a cryptocurrency price chart for AI analysis.",
+      "imageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjaGFydCUyMGdyYXBofGVufDB8fHx8MTc2NDY3NzU4MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chart graph"
+    }
+  ]
+}

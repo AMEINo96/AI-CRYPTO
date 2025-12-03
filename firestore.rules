@@ -1,0 +1,144 @@
+/**
+ * Core Philosophy: This ruleset establishes a dual-access security model. It
+ * provides public, read-only access to shared application data such as
+ * cryptocurrency prices, news, and analysis. Concurrently, it enforces a strict
+ * user-ownership model for private data, ensuring that user profiles and alerts
+ * are only accessible by their respective owners.
+ *
+ * Data Structure: The data is organized into several top-level collections for
+ * public information (`cryptocurrency_data`, `news_articles`, etc.) and a
+ * dedicated `/users/{userId}` collection tree for all user-specific data.
+ * Private subcollections, like `/alerts`, are nested under their owner's user
+ * document.
+ *
+ * Key Security Decisions:
+ * - Public Data: Collections containing general cryptocurrency data are publicly
+ *   readable by any client but are not writable. This assumes that a trusted
+ *   backend service is responsible for populating and maintaining this data.
+ * - User Privacy: Listing users is explicitly disallowed to protect user privacy.
+ *   A user can only fetch their own profile document.
+ * - User-Owned Subcollections: All data in subcollections under `/users/{userId}`
+ *   (e.g., `alerts`) inherits the ownership model, meaning only the parent user
+ *   can access or modify it.
+ * - Admin-Managed Data: The `prediction_models` collection is treated as
+ *   administrator-controlled, meaning it is publicly readable but cannot be
+ *   modified by any client-side requests.
+ *
+ * Denormalization for Authorization: The `Alert` documents under a user's
+ * private subcollection contain a denormalized `userId` field. Security rules
+ * enforce that this field matches the user's ID in the path upon creation and
+ * remains immutable, ensuring data integrity and preventing documents from being
+ * associated with the wrong user.
+ *
+ * Structural Segregation: User-specific data (`Alerts`) is strictly segregated
+ * from public data by placing it in a private subcollection (`/users/{userId}/alerts`).
+ * This simplifies security rules and makes list queries for a user's private data
+ * both secure and efficient, as the path itself acts as the primary security filter.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions for reusable logic
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Checks if the requesting user's UID matches the document's owner ID
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // Checks for ownership on an existing document, for update/delete operations
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+    /**
+     * @description Provides public, read-only access to cryptocurrency data.
+     * @path /cryptocurrency_data/{cryptocurrencyDataId}
+     * @allow (get) Any user, signed in or not, can read a specific data entry.
+     * @deny (create) No client can create, update, or delete cryptocurrency data. This is managed by a backend service.
+     * @principle Secures public data by making it read-only for clients.
+     */
+    match /cryptocurrency_data/{cryptocurrencyDataId} {
+      allow get, list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Provides public, read-only access to news articles.
+     * @path /news_articles/{newsArticleId}
+     * @allow (get) Any user, signed in or not, can read a news article.
+     * @deny (create) No client can create, update, or delete news articles. This is managed by a backend service.
+     * @principle Secures public data by making it read-only for clients.
+     */
+    match /news_articles/{newsArticleId} {
+      allow get, list: if true;
+      allow update: if false;
+      allow create: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Provides public, read-only access to chart patterns.
+     * @path /chart_patterns/{chartPatternId}
+     * @allow (get) Any user, signed in or not, can read a chart pattern.
+     * @deny (create) No client can create, update, or delete chart patterns. This is managed by a backend service.
+     * @principle Secures public data by making it read-only for clients.
+     */
+    match /chart_patterns/{chartPatternId} {
+      allow get, list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Provides public, read-only access to prediction model metrics.
+     * @path /prediction_models/{predictionModelId}
+     * @allow (get) Any user can read the performance metrics of a prediction model.
+     * @deny (create) No client can modify prediction models. This is managed by an admin/backend process.
+     * @principle Secures administrator-controlled data by making it read-only for clients.
+     */
+    match /prediction_models/{predictionModelId} {
+      allow get, list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Secures user profile documents. A user can create, read, and update their own profile.
+     * @path /users/{userId}
+     * @allow (create) A new user (auth.uid=`user_abc`) can create their own profile at `/users/user_abc`.
+     * @deny (get) User `user_xyz` cannot read the profile of user `user_abc`.
+     * @deny (list) No user can list all documents in the `users` collection.
+     * @principle Restricts access to a user's own data tree and prevents user enumeration.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isOwner(userId) && resource != null && request.resource.data.id == resource.data.id;
+      allow delete: if false;
+
+      /**
+       * @description Secures a user's alert documents. Only the owner can manage their own alerts.
+       * @path /users/{userId}/alerts/{alertId}
+       * @allow (create) A signed-in user (auth.uid=`user_abc`) can create an alert in their own subcollection.
+       * @deny (get) User `user_xyz` cannot read an alert from `/users/user_abc/alerts/{alertId}`.
+       * @deny (create) User `user_abc` cannot create an alert with a mismatched `userId` field in the data.
+       * @principle Enforces document ownership and validates relational integrity between the document and its path.
+       */
+      match /alerts/{alertId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+        allow delete: if isExistingOwner(userId);
+      }
+    }
+  }
+}

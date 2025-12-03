@@ -1,0 +1,359 @@
+{
+  "entities": {
+    "CryptocurrencyData": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CryptocurrencyData",
+      "type": "object",
+      "description": "Represents real-time and historical data for a specific cryptocurrency.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the cryptocurrency data entry."
+        },
+        "symbol": {
+          "type": "string",
+          "description": "The ticker symbol of the cryptocurrency (e.g., BTC, ETH)."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Timestamp of the data entry (ISO 8601 format).",
+          "format": "date-time"
+        },
+        "price": {
+          "type": "number",
+          "description": "The price of the cryptocurrency at the given timestamp."
+        },
+        "volume": {
+          "type": "number",
+          "description": "The trading volume of the cryptocurrency at the given timestamp."
+        }
+      },
+      "required": [
+        "id",
+        "symbol",
+        "timestamp",
+        "price",
+        "volume"
+      ]
+    },
+    "NewsArticle": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "NewsArticle",
+      "type": "object",
+      "description": "Represents a news article related to cryptocurrencies.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the news article."
+        },
+        "source": {
+          "type": "string",
+          "description": "Source of the news article (e.g., Reuters, CoinDesk)."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the news article."
+        },
+        "url": {
+          "type": "string",
+          "description": "URL of the news article.",
+          "format": "uri"
+        },
+        "publishDate": {
+          "type": "string",
+          "description": "Date and time the news article was published (ISO 8601 format).",
+          "format": "date-time"
+        },
+        "sentimentScore": {
+          "type": "number",
+          "description": "Sentiment score of the news article (-1 to 1)."
+        },
+        "cryptocurrencyDataId": {
+          "type": "string",
+          "description": "Reference to CryptocurrencyData. (Relationship: CryptocurrencyData 1:N NewsArticle)"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "title",
+        "url",
+        "publishDate",
+        "sentimentScore",
+        "cryptocurrencyDataId"
+      ]
+    },
+    "ChartPattern": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ChartPattern",
+      "type": "object",
+      "description": "Represents a recognized chart pattern for a cryptocurrency.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the chart pattern."
+        },
+        "cryptocurrencyDataId": {
+          "type": "string",
+          "description": "Reference to CryptocurrencyData. (Relationship: CryptocurrencyData 1:N ChartPattern)"
+        },
+        "patternName": {
+          "type": "string",
+          "description": "Name of the chart pattern (e.g., Head and Shoulders, Double Top)."
+        },
+        "confirmationTimestamp": {
+          "type": "string",
+          "description": "Timestamp when the chart pattern was confirmed (ISO 8601 format).",
+          "format": "date-time"
+        },
+        "predictedOutcome": {
+          "type": "string",
+          "description": "The predicted outcome based on the detected chart pattern (e.g., bullish, bearish)."
+        }
+      },
+      "required": [
+        "id",
+        "cryptocurrencyDataId",
+        "patternName",
+        "confirmationTimestamp",
+        "predictedOutcome"
+      ]
+    },
+    "PredictionModel": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PredictionModel",
+      "type": "object",
+      "description": "Represents the AI prediction model and its performance metrics.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the prediction model."
+        },
+        "version": {
+          "type": "string",
+          "description": "Version number of the prediction model."
+        },
+        "trainingStartDate": {
+          "type": "string",
+          "description": "Date when the model training started (ISO 8601 format).",
+          "format": "date-time"
+        },
+        "trainingEndDate": {
+          "type": "string",
+          "description": "Date when the model training ended (ISO 8601 format).",
+          "format": "date-time"
+        },
+        "accuracy": {
+          "type": "number",
+          "description": "Overall accuracy of the prediction model."
+        },
+        "precision": {
+          "type": "number",
+          "description": "Precision of the prediction model."
+        },
+        "recall": {
+          "type": "number",
+          "description": "Recall of the prediction model."
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "trainingStartDate",
+        "trainingEndDate",
+        "accuracy",
+        "precision",
+        "recall"
+      ]
+    },
+    "Alert": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Alert",
+      "type": "object",
+      "description": "Represents a user-defined alert for specific cryptocurrency conditions.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the alert."
+        },
+        "cryptocurrencyDataId": {
+          "type": "string",
+          "description": "Reference to CryptocurrencyData. (Relationship: CryptocurrencyData 1:N Alert)"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Alert)"
+        },
+        "triggerCondition": {
+          "type": "string",
+          "description": "The condition that triggers the alert (e.g., price above, price below)."
+        },
+        "triggerValue": {
+          "type": "number",
+          "description": "The value that triggers the alert."
+        },
+        "alertType": {
+          "type": "string",
+          "description": "The type of alert (e.g., email, push notification)."
+        },
+        "createdTimestamp": {
+          "type": "string",
+          "description": "Timestamp when the alert was created (ISO 8601 format).",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "cryptocurrencyDataId",
+        "userId",
+        "triggerCondition",
+        "triggerValue",
+        "alertType",
+        "createdTimestamp"
+      ]
+    },
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the CryptoVision app.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user.",
+          "format": "email"
+        },
+        "username": {
+          "type": "string",
+          "description": "Username of the user."
+        },
+        "registrationDate": {
+          "type": "string",
+          "description": "Date when the user registered (ISO 8601 format).",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "username",
+        "registrationDate"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/cryptocurrency_data/{cryptocurrencyDataId}",
+        "definition": {
+          "entityName": "CryptocurrencyData",
+          "schema": {
+            "$ref": "#/backend/entities/CryptocurrencyData"
+          },
+          "description": "Stores real-time and historical cryptocurrency data.",
+          "params": [
+            {
+              "name": "cryptocurrencyDataId",
+              "description": "Unique identifier for the cryptocurrency data entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/news_articles/{newsArticleId}",
+        "definition": {
+          "entityName": "NewsArticle",
+          "schema": {
+            "$ref": "#/backend/entities/NewsArticle"
+          },
+          "description": "Stores news articles related to cryptocurrencies.",
+          "params": [
+            {
+              "name": "newsArticleId",
+              "description": "Unique identifier for the news article."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/chart_patterns/{chartPatternId}",
+        "definition": {
+          "entityName": "ChartPattern",
+          "schema": {
+            "$ref": "#/backend/entities/ChartPattern"
+          },
+          "description": "Stores recognized chart patterns.",
+          "params": [
+            {
+              "name": "chartPatternId",
+              "description": "Unique identifier for the chart pattern."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/prediction_models/{predictionModelId}",
+        "definition": {
+          "entityName": "PredictionModel",
+          "schema": {
+            "$ref": "#/backend/entities/PredictionModel"
+          },
+          "description": "Stores AI prediction model metadata and performance metrics.  Limited write access.",
+          "params": [
+            {
+              "name": "predictionModelId",
+              "description": "Unique identifier for the prediction model."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles. Path-based ownership; only the user can read/write their profile.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "Unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/alerts/{alertId}",
+        "definition": {
+          "entityName": "Alert",
+          "schema": {
+            "$ref": "#/backend/entities/Alert"
+          },
+          "description": "Stores user-defined alerts. Includes denormalized 'userId' for authorization independence. Path-based ownership; only the user can manage their alerts.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "Unique identifier for the user."
+            },
+            {
+              "name": "alertId",
+              "description": "Unique identifier for the alert."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to support CryptoVision's core features while prioritizing security, scalability, and debuggability, adhering to the principles of Authorization Independence, Clarity of Intent, DBAC, and QAPs.\n\n**Authorization Independence (Denormalization):**\nTo avoid using `get()` calls in security rules and ensure atomic operations, key authorization data is denormalized. Specifically, the `Alert` collection stores the `userId` directly within each document, eliminating the need to fetch user data for authorization.  No collaborative data structures are being used, as a result, no membership maps are needed.\n\n**Structural Segregation (Homogeneous Security Posture):**\nEach collection is designed to contain documents with similar access control requirements. This simplifies security rules.  Alerts are segregated under each user, so only that user can read them.\n\n**Access Modeling:**\n*   **Private Data:** User-specific alerts are stored under `/users/{userId}/alerts/{alertId}`, ensuring path-based ownership for simple and secure access rules.\n*   **Alerts**: Alerts are stored under the user's document to allow for listing alerts that belong to the user.\n\n**QAPs (Rules are not Filters):**\nThe structure facilitates secure `list` operations. Because alerts are segregated under users, we don't need to filter, as rules will only provide access to the alerts for the authenticated user.\n\n**Invariants:**\nThe structure supports data integrity through clear ownership (userId on Alerts) and explicit timestamps (createdTimestamp on Alerts).\n\n**Collections Explanation:**\n*   `/cryptocurrency_data/{cryptocurrencyDataId}`: Stores real-time and historical cryptocurrency data. Public read access for data aggregation.\n*   `/news_articles/{newsArticleId}`: Stores news articles related to cryptocurrencies. Public read access.\n*   `/chart_patterns/{chartPatternId}`: Stores recognized chart patterns. Public read access.\n*   `/prediction_models/{predictionModelId}`: Stores AI prediction model metadata and performance metrics. This is considered admin data and should have limited write access.\n*   `/users/{userId}`: Stores user profiles. Path-based ownership; only the user can read/write their profile.\n*   `/users/{userId}/alerts/{alertId}`: Stores user-defined alerts. Path-based ownership; only the user can manage their alerts."
+  }
+}
