@@ -77,14 +77,12 @@ function Dashboard() {
         setSentiment({ value: newSentiment, description: newDescription });
 
       } catch (error: any) {
-        console.error("Failed to get initial suggestion", error);
-        // Set a default/error state if the AI call fails
-        const errorMessage = error.message?.includes('API key')
-          ? 'Missing API Key'
-          : 'Analysis Failed';
+        console.error("AI Analysis Failed:", error);
+        // DEBUG: Show actual error message
+        const errorMessage = error.message || 'Analysis Failed';
 
         setSuggestion({ confidence: 'N/A', summary: errorMessage });
-        setSentiment({ value: 'Error', description: 'Check API Key' });
+        setSentiment({ value: 'Error', description: errorMessage.slice(0, 20) + '...' });
       }
       setLoading(false);
     };
