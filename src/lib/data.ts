@@ -74,10 +74,10 @@ export const chartData: Record<string, ChartData[]> = {
 };
 
 export const newsArticles: NewsArticle[] = [
-  { id: '1', source: 'CoinDesk', title: 'Bitcoin Breaks $68,000 as Market Optimism Surges', time: '2h ago', url: 'https://www.coindesk.com/market/bitcoin' },
-  { id: '2', source: 'Bloomberg', title: 'Ethereum "Dencun" Upgrade Finalized, Gas Fees Expected to Drop', time: '5h ago', url: 'https://www.bloomberg.com/crypto' },
-  { id: '3', source: 'Reuters', title: 'Regulatory Landscape for Crypto Shifts in European Union', time: '8h ago', url: 'https://www.reuters.com/technology/cryptocurrency/' },
-  { id: '4', source: 'The Block', title: 'Dogecoin Rallies as Elon Musk Hints at X Integration', time: '1d ago', url: 'https://www.theblock.co/' },
+  { id: '1', source: 'CoinDesk', title: 'Bitcoin Market Update: Latest Price Action and Analysis', time: '2h ago', url: 'https://www.coindesk.com/markets/' },
+  { id: '2', source: 'Bloomberg', title: 'Crypto Market Outlook: Trends and Regulatory News', time: '5h ago', url: 'https://www.bloomberg.com/crypto' },
+  { id: '3', source: 'Reuters', title: 'Global Cryptocurrency Regulation Round-up', time: '8h ago', url: 'https://www.reuters.com/technology/cryptocurrency/' },
+  { id: '4', source: 'The Block', title: 'Dogecoin and Meme Coins: Latest Ecosystem Developments', time: '1d ago', url: 'https://www.theblock.co/category/memecoins' },
 ];
 
 export const performanceMetrics: PerformanceMetric[] = [
