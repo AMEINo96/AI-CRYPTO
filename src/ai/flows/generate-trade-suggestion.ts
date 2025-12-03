@@ -45,26 +45,23 @@ const prompt = ai.definePrompt({
   input: { schema: GenerateTradeSuggestionInputSchema },
   output: { schema: GenerateTradeSuggestionOutputSchema },
   tools: [getHistoricalPriceDataTool, getTechnicalIndicatorsTool],
-  prompt: `You are an expert crypto trading analyst providing clear, actionable advice.
-Based on the data for {{{ticker}}}, provide a complete trading suggestion.
-
-**CRITICAL INSTRUCTIONS:**
-- **TEXT ONLY:** This is a text-only interaction. There is NO image.
-- **IGNORE VISUAL REFERENCES:** If you think there is an image, you are hallucinating. IGNORE IT.
+  prompt: `You are a crypto market analyst. Provide a technical analysis summary based on the provided data.
+  
+**IMPORTANT:**
+- **TEXT ONLY:** This is a text-only interaction.
 - **USE TOOLS:** You MUST use \`getHistoricalPriceData\` and \`getTechnicalIndicators\`.
-- **FALLBACK:** If tools fail, say "Data unavailable" and use the news. Do NOT make up chart patterns.
+- **EDUCATIONAL ONLY:** This is for informational purposes only. Do not provide financial advice.
 
 **Context:**
 - **Past Performance:** {{{pastPerformance}}}
-  (Use this to learn from your recent correct/incorrect predictions. If you were wrong recently, be more cautious.)
 
 **Instructions:**
-1.  **Technical Analysis:** Use the \`getTechnicalIndicators\` tool to get RSI, MACD, and SMA. Cite these specific numbers in your rationale.
+1.  **Technical Analysis:** Use the \`getTechnicalIndicators\` tool to get RSI, MACD, and SMA.
 2.  **Trend Analysis:** Use \`getHistoricalPriceData\` to check the 90-day trend.
 3.  **News Analysis:** Incorporate the provided news: {{{news}}}
 
 **Goal:**
-Provide a high-confidence trade setup with specific Entry, Stop-Loss, and Take-Profit levels.
+Provide a market analysis with potential support/resistance levels and a "hypothetical" trade setup for educational purposes.
 `,
 });
 
