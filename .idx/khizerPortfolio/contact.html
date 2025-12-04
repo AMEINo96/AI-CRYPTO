@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Syed Khizar Abbas">
+    <title>Contact - Syed Khizar Abbas</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(26, 26, 36, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            color: var(--color-text-primary);
+            font-family: var(--font-body);
+            font-size: var(--font-size-base);
+            transition: all var(--transition-base);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .contact-info-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(26, 26, 36, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            transition: all var(--transition-base);
+        }
+
+        .contact-info-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-accent);
+            border-radius: var(--radius-lg);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">KHIZAR ABBAS</a>
+            <button class="navbar-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="navbar-menu" id="navMenu">
+                <li><a href="index.html" class="navbar-link">Home</a></li>
+                <li><a href="edu.html" class="navbar-link">Education</a></li>
+                <li><a href="personalskill.html" class="navbar-link">Skills</a></li>
+                <li><a href="hobbies.html" class="navbar-link">Hobbies</a></li>
+                <li><a href="languages.html" class="navbar-link">Languages</a></li>
+                <li><a href="contact.html" class="navbar-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="section" style="padding-top: 8rem; padding-bottom: 2rem;">
+        <div class="section-container">
+            <div style="text-align: center;">
+                <h1 class="section-title">Get In Touch</h1>
+                <p class="section-subtitle">Let's connect and discuss opportunities</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section">
+        <div class="section-container">
+            <div class="grid grid-2" style="gap: 3rem;">
+                <!-- Contact Information -->
+                <div>
+                    <h2 style="font-size: 2rem; margin-bottom: 2rem;">
+                        <span class="gradient-text">Contact Information</span>
+                    </h2>
+
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- Email -->
+                        <div class="contact-info-card">
+                            <div class="contact-icon">📧</div>
+                            <div>
+                                <h4 style="color: var(--color-text-primary); margin-bottom: 0.25rem;">Email</h4>
+                                <a href="mailto:khizarabbas@gmail.com"
+                                    style="color: var(--color-text-muted);">khizarabbas@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="contact-info-card">
+                            <div class="contact-icon">📱</div>
+                            <div>
+                                <h4 style="color: var(--color-text-primary); margin-bottom: 0.25rem;">Phone</h4>
+                                <a href="tel:+923455609110" style="color: var(--color-text-muted);">+92 345-560911-0</a>
+                            </div>
+                        </div>
+
+                        <!-- GitHub -->
+                        <div class="contact-info-card">
+                            <div class="contact-icon">🌐</div>
+                            <div>
+                                <h4 style="color: var(--color-text-primary); margin-bottom: 0.25rem;">GitHub</h4>
+                                <a href="https://github.com/khizar" target="_blank"
+                                    style="color: var(--color-text-muted);">github.com/khizar</a>
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="contact-info-card">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <h4 style="color: var(--color-text-primary); margin-bottom: 0.25rem;">Location</h4>
+                                <p style="color: var(--color-text-muted); margin: 0;">Wah Cantt, Pakistan</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div style="margin-top: 2rem;">
+                        <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--color-text-secondary);">Connect
+                            With Me</h3>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <a href="https://linkedin.com" target="_blank" class="tag"
+                                style="font-size: 1rem; padding: 0.75rem 1.5rem;">LinkedIn</a>
+                            <a href="https://twitter.com" target="_blank" class="tag"
+                                style="font-size: 1rem; padding: 0.75rem 1.5rem;">Twitter</a>
+                            <a href="https://github.com" target="_blank" class="tag"
+                                style="font-size: 1rem; padding: 0.75rem 1.5rem;">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div>
+                    <h2 style="font-size: 2rem; margin-bottom: 2rem;">
+                        <span class="gradient-text">Send a Message</span>
+                    </h2>
+
+                    <form id="contactForm" style="display: flex; flex-direction: column;">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Your Name *</label>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="John Doe" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Your Email *</label>
+                            <input type="email" id="email" name="email" class="form-input"
+                                placeholder="john@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" id="subject" name="subject" class="form-input"
+                                placeholder="Project Inquiry">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message *</label>
+                            <textarea id="message" name="message" class="form-textarea"
+                                placeholder="Tell me about your project or inquiry..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Availability Section -->
+    <section class="section" style="background: var(--color-bg-secondary);">
+        <div class="section-container">
+            <div class="card"
+                style="text-align: center; padding: 3rem 2rem; background: var(--gradient-card); max-width: 800px; margin: 0 auto;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">⏰</div>
+                <h2 style="font-size: 2rem; margin-bottom: 1rem;">Availability</h2>
+                <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem; font-size: 1.125rem;">
+                    I'm currently available for internships, freelance projects, and collaboration opportunities.
+                    Feel free to reach out, and I'll get back to you within 24-48 hours!
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <span class="tag" style="font-size: 1rem; padding: 0.75rem 1.5rem;">Open to Internships</span>
+                    <span class="tag" style="font-size: 1rem; padding: 0.75rem 1.5rem;">Freelance Projects</span>
+                    <span class="tag" style="font-size: 1rem; padding: 0.75rem 1.5rem;">Collaborations</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-social">
+                <a href="index.html" class="footer-link">Home</a>
+                <a href="edu.html" class="footer-link">Education</a>
+                <a href="personalskill.html" class="footer-link">Skills</a>
+                <a href="hobbies.html" class="footer-link">Hobbies</a>
+            </div>
+            <p class="footer-text">© 2024 Syed Khizar Abbas. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
