@@ -50,7 +50,7 @@ const prompt = ai.definePrompt({
 **CRITICAL INSTRUCTIONS:**
 - **TEXT ONLY:** This is a text-only interaction.
 - **EDUCATIONAL ONLY:** This is for informational purposes only. Do NOT provide financial advice.
-- **NO RECOMMENDATIONS:** Do NOT say "Buy", "Sell", or "Hold". Instead, discuss "Bullish" or "Bearish" signs.
+- **ANALYSIS ONLY:** Your "action" (Buy/Sell/Hold) is a theoretical conclusion based on technical indicators, NOT a financial recommendation.
 - **USE TOOLS:** You MUST use \`getHistoricalPriceData\` and \`getTechnicalIndicators\`.
 
 **Context:**
@@ -62,7 +62,7 @@ const prompt = ai.definePrompt({
 3.  **News Analysis:** Incorporate the provided news: {{{news}}}
 
 **Goal:**
-Provide a market commentary identifying key support/resistance levels and market sentiment.
+Provide a market commentary identifying key support/resistance levels and market sentiment. Fill the JSON schema based on your analysis.
 `,
 });
 
